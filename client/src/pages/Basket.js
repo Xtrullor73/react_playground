@@ -1,11 +1,11 @@
 import React from 'react';
+import {observer} from "mobx-react-lite";
 
-const Basket = () => {
-    return (
-        <div>
-            BASKET
-        </div>
-    );
-};
+
+const Basket = observer(() => {
+    // return (
+
+    // );
+});
 
 export default Basket;

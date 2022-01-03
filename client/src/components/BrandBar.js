@@ -14,7 +14,7 @@ const BrandBar = observer(() => {
                     key={brand.id}
                     className="p-3"
                     onClick={() => device.setSelectedBrand(brand)}
-                    border={brand.id === device.selectedBrand.id ? 'danger' : 'gray'}
+                    border={brand.id === device.selectedBrand.id ? 'danger' : 'grey'}
                 >
                     {brand.name}
                 </Card>
