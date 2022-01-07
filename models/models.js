@@ -51,6 +51,14 @@
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
     })
 
+    const Order = sequelize.define('order', {
+        id: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false},
+        email: {type: DataTypes.STRING, allowNull: false},
+        address: {type: DataTypes.STRING, allowNull: false},
+        phoneNum: {type: DataTypes.STRING, allowNull: false},
+        name: {type: DataTypes.STRING, allowNull: false}
+    })
+
     User.hasOne(Basket)
     Basket.belongsTo(User)
 
@@ -89,7 +97,6 @@
         TypeBrand,
         DeviceInfo
     }
-
 
 
 
