@@ -1,4 +1,3 @@
-
 const sequelize = require('../db')
 const {DataTypes} = require('sequelize')
 
@@ -53,7 +52,7 @@ const TypeBrand = sequelize.define('type_brand', {
 })
 
 const Order = sequelize.define('order', {
-    id: {type: DataTypes.INTEGER, primaryKey: true},
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email: {type: DataTypes.STRING, allowNull: false},
     address: {type: DataTypes.STRING, allowNull: false},
     phoneNum: {type: DataTypes.STRING, allowNull: false},
@@ -104,7 +103,8 @@ module.exports = {
     Brand,
     Rating,
     TypeBrand,
-    DeviceInfo
+    DeviceInfo,
+    Order
 }
 
 
