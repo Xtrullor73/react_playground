@@ -13,9 +13,9 @@ const Basket = sequelize.define('basket', {
 })
 
 const BasketDevice = sequelize.define('basket_device', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, // ID товара который добавляется в корзину
-    deviceId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false}, // ID пользователя который равен его корзине
-    basketId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false} // Это значение всегда будет равно userId, в данном случае оно равно id
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    deviceId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false}, // ID товара добавляемого в корзину
+    basketId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false} // За каждым userId закреплен свой basketId с идентичным значением
 })
 
 const Device = sequelize.define('device', {
