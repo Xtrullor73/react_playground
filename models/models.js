@@ -52,16 +52,21 @@ const TypeBrand = sequelize.define('type_brand', {
 })
 
 const Order = sequelize.define('order', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    orderId: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email: {type: DataTypes.STRING, allowNull: false},
     address: {type: DataTypes.STRING, allowNull: false},
     phoneNum: {type: DataTypes.STRING, allowNull: false},
     name: {type: DataTypes.STRING, allowNull: false},
-    totalPrice: {type: DataTypes.STRING, allowNull: false},
-    orderedDevices: {type: DataTypes.JSON, allowNull: false}
 })
 
-const UserOrder = sequelize.define('user_order', {
+const OrderLines = sequelize.define('order_lines', {
+    orderId: {type: DataTypes.INTEGER, primaryKey: true},
+    deviceId: {type: DataTypes.INTEGER, primaryKey: true},
+    quantity: {type: DataTypes.INTEGER},
+    totalPrice: {type: DataTypes.INTEGER, allowNull: false},
+})
+
+const UserOrder = sequelize.define('user_orSSder', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
