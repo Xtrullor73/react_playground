@@ -57,6 +57,8 @@ const Order = sequelize.define('order', {
     address: {type: DataTypes.STRING, allowNull: false},
     phoneNum: {type: DataTypes.STRING, allowNull: false},
     name: {type: DataTypes.STRING, allowNull: false},
+    totalPrice: {type: DataTypes.STRING, allowNull: false},
+    orderedDevices: {type: DataTypes.JSON, allowNull: false}
 })
 
 const UserOrder = sequelize.define('user_order', {
