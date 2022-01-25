@@ -1,94 +1,117 @@
-    const sequelize = require('../db')
-    const {DataTypes} = require('sequelize')
+const sequelize = require('../db')
+const {DataTypes} = require('sequelize')
 
-    const User = sequelize.define('user', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        email: {type: DataTypes.STRING, unique: true},
-        password: {type: DataTypes.STRING},
-        role: {type: DataTypes.STRING, defaultValue: "USER"},
-    })
+const User = sequelize.define('user', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    email: {type: DataTypes.STRING, unique: true},
+    password: {type: DataTypes.STRING},
+    role: {type: DataTypes.STRING, defaultValue: "USER"},
+})
 
-    const Basket = sequelize.define('basket', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true} // ID пользователя которому будет автоматически создаваться корзина при регистрации
-    })
+const Basket = sequelize.define('basket', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true} // ID пользователя которому будет автоматически создаваться корзина при регистрации
+})
 
-    const BasketDevice = sequelize.define('basket_device', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, // ID товара который добавляется в корзину
-        deviceId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false}, // ID пользователя который равен его корзине
-        basketId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false} // Это значение всегда будет равно userId, в данном случае оно равно id
-    })
+const BasketDevice = sequelize.define('basket_device', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    deviceId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false}, // ID товара добавляемого в корзину
+    basketId: {type: DataTypes.INTEGER, primaryKey: true, allowNull: false} // За каждым userId закреплен свой basketId с идентичным значением
+})
 
-    const Device = sequelize.define('device', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        name: {type: DataTypes.STRING, unique: true, allowNull: false},
-        price: {type: DataTypes.INTEGER, allowNull: false},
-        rating: {type: DataTypes.INTEGER, defaultValue: 0},
-        img: {type: DataTypes.STRING, allowNull: false},
-    })
+const Device = sequelize.define('device', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false},
+    price: {type: DataTypes.INTEGER, allowNull: false},
+    rating: {type: DataTypes.INTEGER, defaultValue: 0},
+    img: {type: DataTypes.STRING, allowNull: false},
+})
 
-    const Type = sequelize.define('type', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        name: {type: DataTypes.STRING, unique: true, allowNull: false}
-    })
+const Type = sequelize.define('type', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false}
+})
 
-    const Brand = sequelize.define('brand', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        name: {type: DataTypes.STRING, unique: true, allowNull: false}
-    })
+const Brand = sequelize.define('brand', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false}
+})
 
-    const Rating = sequelize.define('rating', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        rate: {type: DataTypes.INTEGER, allowNull: false}
-    })
+const Rating = sequelize.define('rating', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    rate: {type: DataTypes.INTEGER, allowNull: false}
+})
 
-    const DeviceInfo = sequelize.define('device_info', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        title: {type: DataTypes.STRING, allowNull: false},
-        description: {type: DataTypes.STRING, primaryKey: true}
-    })
+const DeviceInfo = sequelize.define('device_info', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, allowNull: false},
+    description: {type: DataTypes.STRING, primaryKey: true}
+})
 
-    const TypeBrand = sequelize.define('type_brand', {
-        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
-    })
+const TypeBrand = sequelize.define('type_brand', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
 
-    User.hasOne(Basket)
-    Basket.belongsTo(User)
+const Order = sequelize.define('order', {
+    orderId: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    email: {type: DataTypes.STRING, allowNull: false},
+    address: {type: DataTypes.STRING, allowNull: false},
+    phoneNum: {type: DataTypes.STRING, allowNull: false},
+    name: {type: DataTypes.STRING, allowNull: false},
+})
 
-    User.hasMany(Rating)
-    Rating.belongsTo(User)
+const OrderLines = sequelize.define('order_lines', {
+    orderId: {type: DataTypes.INTEGER, primaryKey: true},
+    deviceId: {type: DataTypes.INTEGER, primaryKey: true},
+    quantity: {type: DataTypes.INTEGER},
+    totalPrice: {type: DataTypes.INTEGER, allowNull: false},
+})
 
-    Basket.hasMany(BasketDevice)
-    BasketDevice.belongsTo(Type)
+const UserOrder = sequelize.define('user_orSSder', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
 
-    Type.hasMany(Device)
-    Device.belongsTo(Type)
+User.hasOne(Basket)
+Basket.belongsTo(User)
 
-    Brand.hasMany(Device)
-    Device.belongsTo(Brand)
+User.hasMany(Rating)
+Rating.belongsTo(User)
 
-    Device.hasMany(Rating)
-    Rating.belongsTo(Device)
+Basket.hasMany(BasketDevice)
+BasketDevice.belongsTo(Type)
 
-    Device.hasMany(BasketDevice)
-    BasketDevice.belongsTo(Device)
+Type.hasMany(Device)
+Device.belongsTo(Type)
 
-    Device.hasMany(DeviceInfo, {as: 'info'})
-    DeviceInfo.belongsTo(Device)
+Brand.hasMany(Device)
+Device.belongsTo(Brand)
 
-    Type.belongsToMany(Brand, {through: TypeBrand})
-    Brand.belongsToMany(Type, {through: TypeBrand})
+Device.hasMany(Rating)
+Rating.belongsTo(Device)
 
-    module.exports = {
-        User,
-        Basket,
-        BasketDevice,
-        Device,
-        Type,
-        Brand,
-        Rating,
-        TypeBrand,
-        DeviceInfo
-    }
+Device.hasMany(BasketDevice)
+BasketDevice.belongsTo(Device)
 
+Device.hasMany(DeviceInfo, {as: 'info'})
+DeviceInfo.belongsTo(Device)
+
+Type.belongsToMany(Brand, {through: TypeBrand})
+Brand.belongsToMany(Type, {through: TypeBrand})
+
+Order.belongsTo(User)
+User.belongsToMany(Order, {through: UserOrder})
+
+
+module.exports = {
+    User,
+    Basket,
+    BasketDevice,
+    Device,
+    Type,
+    Brand,
+    Rating,
+    TypeBrand,
+    DeviceInfo,
+    Order
+}
 
 

@@ -27,7 +27,6 @@ class UserController {
         const user = await User.create({email, role, password: hashPassword})
         const basket = await Basket.create({userId: user.id}) // Создание корзины
         const token = generateJwt(user.id, user.email, user.role)
-        console.log(user.id)
 
         return res.json({token})
     }
@@ -51,7 +50,7 @@ class UserController {
         const token = generateJwt(req.user.id, req.user.email, req.user.role)
         return res.json({token})
     }
-
+п
     async getUserId(req, res) {
         const {id} = req.body
         return res.json(id)
